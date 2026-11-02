@@ -70,7 +70,8 @@ for cname in ('gray', 'coolwarm', 'viridis', 'civids', 'inferno', 'plasma',
 # curated list of default of colormap names (not including '_r')
 ColorMap_List = ['gray', 'coolwarm', 'viridis', 'cividis',
                  'inferno', 'plasma', 'magma', 'berlin',
-                 'managua', 'vanimo', 'turbo', 'hot', 'cool', 'bone', 'Wistia']
+                 'managua', 'vanimo', 'turbo', 'hot', 'cool', 'bone',
+                 'Blues', 'Reds', 'blue_white', 'red_white']
 
 Contrast_Levels = ('0', '0.00010', '0.00015', '0.00020', '0.0003', '0.0005',
                    '0.0007', '0.0010', '0.0015', '0.0020', '0.003', '0.005',
