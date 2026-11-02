@@ -368,8 +368,8 @@ class ImagePanel(BasePanel):
 
         self.popup_menu.AppendSeparator()
 
-        MenuItem(self, popup, 'Rotate 90deg  (CW)', '', self.rotate90)
-        MenuItem(self, popup, 'Save Image', '', self.save_figure)
+        MenuItem(self, popup, 'Rotate 90deg (CW)', '', self.rotate90)
+        MenuItem(self, popup, 'Save Image',     '', self.save_figure)
 
     def rotate90(self, event=None, display=True):
         "rotate 90 degrees, CW"

@@ -17,7 +17,7 @@ from PIL import Image
 from functools import partial
 from .utils import pack, MenuItem, Printer
 from .plotpanel import PlotPanel
-from .baseframe import BaseFrame
+from .baseframe import BaseFrame, FILE_CHOICES
 from .utils import gformat
 from .colors import  wxcol2hex, get_color
 
@@ -171,7 +171,6 @@ class StackedPlotFrame(BaseFrame):
         """ save figure image to file"""
         transparent = False
         dpi = 600
-        file_choices = "PNG (*.png)|*.png|SVG (*.svg)|*.svg|PDF (*.pdf)|*.pdf"
 
         tpanel = self.get_panel('top')
         bpanel = self.get_panel('bottom')
@@ -211,7 +210,7 @@ class StackedPlotFrame(BaseFrame):
         dlg = wx.FileDialog(self, message='Save Plot Figure as...',
                             defaultDir=orig_dir,
                             defaultFile=ofile,
-                            wildcard=file_choices,
+                            wildcard=FILE_CHOICES,
                             style=wx.FD_SAVE|wx.FD_CHANGE_DIR)
 
         if dlg.ShowModal() == wx.ID_OK:

@@ -23,7 +23,7 @@ import matplotlib
 
 from PIL import Image
 
-from .baseframe  import BaseFrame
+from .baseframe  import BaseFrame, FILE_CHOICES
 from .plotpanel  import PlotPanel
 from .imagepanel import ImagePanel
 from .imageframe import ColorMapPanel, InterpPanel, ContrastPanel
@@ -227,12 +227,11 @@ class ImageMatrixFrame(BaseFrame):
 
 
     def save_figure(self, event=None):
-        file_choices = "PNG (*.png)|*.png|SVG (*.svg)|*.svg|PDF (*.pdf)|*.pdf"
         ofile = "%s.png" % self.title
         dlg = wx.FileDialog(self, message='Save Figure as...',
                             defaultDir=get_cwd(),
                             defaultFile=ofile,
-                            wildcard=file_choices,
+                            wildcard=FILE_CHOICES,
                             style=wx.FD_SAVE|wx.FD_CHANGE_DIR)
 
         if dlg.ShowModal() != wx.ID_OK:

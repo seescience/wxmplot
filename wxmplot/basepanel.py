@@ -22,6 +22,8 @@ from .utils import Printer, MenuItem
 tzname = os.environ.get('TZ', 'UTC')
 TIMEZONE = pytz.timezone(tzname)
 
+FILE_CHOICES = "PNG (*.png)|*.png|TIFF (*.tiff)|*.tiff|SVG (*.svg)|*.svg|PDF (*.pdf)|*.pdf"
+
 class BasePanel(wx.Panel):
     """
     wx.Panel component shared by PlotPanel and ImagePanel.
@@ -185,13 +187,15 @@ class BasePanel(wx.Panel):
         (possibly going to GUI statusbar)"""
         self.messenger(s, panel=panel)
 
-    def save_figure(self, event=None, transparent=False, dpi=600):
+    def save_figure(self, event=None, fname=None, transparent=False, dpi=600):
         """ save figure image to file"""
-        file_choices = "PNG (*.png)|*.png|SVG (*.svg)|*.svg|PDF (*.pdf)|*.pdf"
-        try:
-            ofile = self.conf.title.strip()
-        except:
-            ofile = 'Image'
+        if fname is not None:
+            ofile = fname
+        else:
+            try:
+                ofile = self.conf.title.strip()
+            except:
+                ofile = 'Image'
         if len(ofile) > 64:
             ofile = ofile[:63].strip()
         if len(ofile) < 1:
@@ -205,7 +209,7 @@ class BasePanel(wx.Panel):
         dlg = wx.FileDialog(self, message='Save Plot Figure as...',
                             defaultDir=orig_dir,
                             defaultFile=ofile,
-                            wildcard=file_choices,
+                            wildcard=FILE_CHOICES,
                             style=wx.FD_SAVE|wx.FD_CHANGE_DIR)
 
         if dlg.ShowModal() == wx.ID_OK:
@@ -218,6 +222,7 @@ class BasePanel(wx.Panel):
                 path = path[len(self.launch_dir)+1:]
             self.write_message('Saved plot to %s' % path)
         os.chdir(orig_dir)
+
 
     def set_bg(self, color= None):
         if color is None:
@@ -472,7 +477,7 @@ class BasePanel(wx.Panel):
             if ckey == 'C':
                 self.canvas.Copy_to_Clipboard(event)
             elif ckey == 'S':
-                self.save_figure(event)
+                self.save_figure(event=event)
             elif ckey == 'K':
                 self.configure(event)
             elif ckey == 'Z':

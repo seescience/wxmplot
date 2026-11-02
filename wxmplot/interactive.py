@@ -20,11 +20,12 @@ from types import GeneratorType
 
 import wx
 import wx.lib.mixins.inspection
-
+from wxutils import get_cwd
 from wxutils.colors import use_darkdetect
 
 from . import inputhook
 from .plotframe import PlotFrame
+from .basepanel import FILE_CHOICES
 from .imageframe import ImageFrame
 from .stackedplotframe import StackedPlotFrame
 from .config import Themes, DARK_THEME
@@ -188,7 +189,7 @@ class PlotDisplay(PlotFrame):
         self.data_generator = data_generator
         wx.CallAfter(self.start_poller)
 
-    def save_figure(self, fname=None, dpi=600):
+    def save_figure(self, event=None, fname=None, dpi=600, **kws):
       """save image to a png file
 
       Arguments
@@ -196,8 +197,27 @@ class PlotDisplay(PlotFrame):
       fname  str or None  name of file, defaulting to Plot Panel's output_title
       """
       if fname is None:
-        fname = self.panel.output_title
-      self.panel.fig.savefig(fname, dpi=dpi)
+          try:
+              fname = self.panel.conf.title.strip()
+          except:
+              fname = 'Image'
+
+      fname = fname + '.png'
+      for c in ' :";|/\\': # "
+          fname = fname.replace(c, '_')
+
+      orig_dir = os.path.abspath(get_cwd())
+      dlg = wx.FileDialog(self, message='Save Plot Figure as...',
+                          defaultDir=orig_dir,
+                          defaultFile=fname,
+                          wildcard=FILE_CHOICES,
+                          style=wx.FD_SAVE|wx.FD_CHANGE_DIR)
+
+      if dlg.ShowModal() == wx.ID_OK:
+          path = dlg.GetPath()
+          self.panel.fig.savefig(path, dpi=dpi)
+          self.write_message('Saved plot to %s' % path)
+
 
     def set_data_generator(self, data_generator, polltime=25):
         """set data generating function and polltime for live updates

@@ -12,6 +12,7 @@ from wxutils import get_cwd
 from . import __version__
 from .plotpanel import PlotPanel
 from .utils import MenuItem, fix_filename
+from .basepanel import FILE_CHOICES
 
 class BaseFrame(wx.Frame):
     """
@@ -116,7 +117,7 @@ Matt Newville <newville@cars.uchicago.edu>""" % __version__
     def save_figure(self, event=None, transparent=False, dpi=600):
         """ save figure image to file"""
         if self.panel is not None:
-            self.panel.save_figure(event=event,
+            self.panel.save_figure(event=event, fname=None,
                                    transparent=transparent, dpi=dpi)
 
     def configure(self,event=None):
@@ -158,7 +159,7 @@ Matt Newville <newville@cars.uchicago.edu>""" % __version__
     def Build_FileMenu(self, extras=None):
         mfile = wx.Menu()
         MenuItem(self, mfile, "&Save Image\tCtrl+S",
-                 "Save Image of Plot (PNG, SVG, JPG)",
+                 "Save Image of Plot (PNG, TIFF, SVG, PDF)",
                  action=self.save_figure)
         MenuItem(self, mfile, "&Copy\tCtrl+C",
                  "Copy Plot Image to Clipboard",
