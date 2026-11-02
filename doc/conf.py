@@ -15,7 +15,7 @@ from packaging.version import parse as version_parse
 import wxmplot
 
 project = 'wxmplot'
-copyright = f'{date.today()}, Matthew Newville, The University of Chicago'
+copyright = f'{date.today().year}, Matthew Newville, Christofanis Skordas, The University of Chicago'
 
 release = version_parse(wxmplot.__version__).base_version
 
@@ -25,7 +25,8 @@ html_short_title = "WXMPLOT"
 # sys.path.append(os.path.abspath(os.path.join('.')))
 extensions = ['sphinx.ext.autodoc', 'sphinx.ext.mathjax',
               'sphinx.ext.napoleon', 'sphinxcontrib.video',
-              'sphinx_copybutton', 'sphinx.ext.viewcode', 'sphinx.ext.intersphinx',
+              'sphinx_copybutton', 'sphinx.ext.viewcode',
+              'sphinx.ext.intersphinx',
               "sphinx_design",
               "nbsphinx"
 ]
