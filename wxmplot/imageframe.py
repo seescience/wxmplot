@@ -14,6 +14,7 @@ import numpy as np
 from matplotlib.figure import Figure
 from matplotlib.ticker import NullFormatter
 from matplotlib.backends.backend_wxagg import FigureCanvasWxAgg as FigureCanvas
+import tifffile
 
 from wxutils import get_cwd
 
@@ -524,11 +525,14 @@ Keyboard Shortcuts:   (For Mac OSX, replace 'Ctrl' with 'Apple')
 
     def BuildMenu(self):
         # file menu
-        mfile = self.Build_FileMenu(extras=(('Save Image of Colormap',
-                                     'Save Image of Colormap',
+        extra_menus = [('Save Image of Colormap',
+                        'Save Image of Colormap',
+                        self.onCMapSave),
+                       ('Export Data to TIFF File',
+                        'Export DAta to TIFF File',
+                        self.onTiffExport)]
 
-
-                                      self.onCMapSave),))
+        mfile = self.Build_FileMenu(extras=extra_menus)
 
         # image menua
         mview = self.view_menu = wx.Menu()
@@ -902,6 +906,28 @@ Keyboard Shortcuts:   (For Mac OSX, replace 'Ctrl' with 'Apple')
 
         if dlg.ShowModal() == wx.ID_OK:
             self.cmap_panels[0].cmap_canvas.print_figure(dlg.GetPath(), dpi=600)
+
+    def onTiffExport(self, event=None):
+        """save TIFF from data (not from image)"""
+        file_choices = 'Tiff (*.tiff)|*.tiff'
+        try:
+            ofile = self.panel.conf.title.strip()
+        except:
+            ofile = 'Image'
+        dlg = wx.FileDialog(self, message='Save Data as TIFF',
+                            defaultDir=get_cwd(),
+                            defaultFile=ofile,
+                            wildcard=file_choices,
+                            style=wx.FD_SAVE|wx.FD_CHANGE_DIR)
+
+        if dlg.ShowModal() == wx.ID_OK:
+            fname = dlg.GetPath()
+            out  = self.panel.conf.data
+            if out.dtype in (np.float64, np.float32):
+                ptp = max(1.e-7, out.max() - out.min())
+                out = ((2**31)*out/ptp).astype('int32')
+            tifffile.imwrite(fname, out)
+            self.write_messag(f"saved data to {fname}")
 
     def save_figure(self,event=None, transparent=True, dpi=600):
         """ save figure image to file"""
