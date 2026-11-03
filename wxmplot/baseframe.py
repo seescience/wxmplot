@@ -164,7 +164,7 @@ Matt Newville <newville@cars.uchicago.edu>""" % __version__
         MenuItem(self, mfile, "&Copy\tCtrl+C",
                  "Copy Plot Image to Clipboard",
                  self.Copy_to_Clipboard)
-        MenuItem(self, mfile, "Export Data\tCtrl+D",
+        MenuItem(self, mfile, "Export Data to Text File\tCtrl+D",
                  "Export Data to Text File",
                  self.onExport)
 
