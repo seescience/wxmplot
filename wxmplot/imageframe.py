@@ -326,6 +326,7 @@ class ImageFrame(BaseFrame):
     MatPlotlib Image Display ons a wx.Frame, using ImagePanel
     """
 
+
     help_msg =  """Quick help:
 
 Left-Click:   to display X,Y coordinates and Intensity
@@ -525,12 +526,14 @@ Keyboard Shortcuts:   (For Mac OSX, replace 'Ctrl' with 'Apple')
 
     def BuildMenu(self):
         # file menu
-        extra_menus = [('Save Image of Colormap',
-                        'Save Image of Colormap',
-                        self.onCMapSave),
-                       ('Export Data to TIFF File',
-                        'Export DAta to TIFF File',
-                        self.onTiffExport)]
+        extra_menus = [
+            ('Export Data to TIFF File',
+             'Export DAta to TIFF File',
+             self.onTiffExport),
+            ('Save Image of Colormap',
+             'Save Image of Colormap',
+             self.onCMapSave),
+        ]
 
         mfile = self.Build_FileMenu(extras=extra_menus)
 
@@ -927,7 +930,7 @@ Keyboard Shortcuts:   (For Mac OSX, replace 'Ctrl' with 'Apple')
                 ptp = max(1.e-7, out.max() - out.min())
                 out = ((2**31)*out/ptp).astype('int32')
             tifffile.imwrite(fname, out)
-            self.write_messag(f"saved data to {fname}")
+            self.write_message(f"saved data to {fname}")
 
     def save_figure(self,event=None, transparent=True, dpi=600):
         """ save figure image to file"""
