@@ -930,7 +930,7 @@ Keyboard Shortcuts:   (For Mac OSX, replace 'Ctrl' with 'Apple')
                 ptp = max(1.e-7, out.max() - out.min())
                 out = ((2**31)*out/ptp).astype('int32')
             tifffile.imwrite(fname, out)
-            self.write_message(f"saved data to {fname}")
+            self.write_messagee(f"saved data to {fname}")
 
     def save_figure(self,event=None, transparent=True, dpi=600):
         """ save figure image to file"""
