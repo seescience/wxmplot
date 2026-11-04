@@ -99,6 +99,7 @@ manipulate the image:
    5. select optional smoothing interpolation.
    6. modify intensity scales.
    7. save high-quality plot images (as PNGs), copy to system clipboard, or print.
+   8. export data arrays to ASCII text file or TIFF files.
 
 These options are all available programmatically as well, by setting the
 configuration attributes and redrawing the image.
