@@ -6,14 +6,14 @@ WXMPLOT: plotting widgets for Python
 .. _wxPython: https://www.wxpython.org/
 .. _matplotlib:  https://matplotlib.org/
 
+:bdg-link-info:`GitHub <https://github.com/seescience/wxmplot>`
+:bdg-link-info:`PyPI <https://pypi.org/project/wxmplot/>`  Latest Release: |release|
+
 `wxmplot` provides high-level, interactive plotting of scientific data
 for Python, combining `wxPython`_  and `matplotlib`_.
 
 .. image:: images/wxmplot_composite.png
-   :width: 88 %
-
-:bdg-link-info:`GitHub <https://github.com/newville/wxmplot>`
-:bdg-link-info:`PyPI <https://pypi.org/project/wxmplot/>`
+   :width: 85 %
 
 `matplotlib`_ provides excellent general-purpose plotting
 functionality. While it supports many backends, it does not have tight
@@ -41,7 +41,7 @@ use, and enable script writers to make XY line plots and image
 displays from their data, and to interact with and configure these
 displays as part of exploratory data analysis.  Programmers can use
 the `wxmplot` widgets to include these high quality graphical displays
-of data in their wxPython applications to enable users to explore
+of data in their wxPython applications to enable users to explorec
 their data.
 
 .. toctree::
