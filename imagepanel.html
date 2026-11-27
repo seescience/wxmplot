@@ -288,6 +288,7 @@ manipulate the image:</p>
 <li><p>select optional smoothing interpolation.</p></li>
 <li><p>modify intensity scales.</p></li>
 <li><p>save high-quality plot images (as PNGs), copy to system clipboard, or print.</p></li>
+<li><p>export data arrays to ASCII text file or TIFF files.</p></li>
 </ol>
 </div></blockquote>
 <p>These options are all available programmatically as well, by setting the
@@ -322,7 +323,7 @@ if you create an <code class="xref py py-class docutils literal notranslate"><sp
 <span class="c1"># and apply gaussian interpolation</span>
 <span class="n">im_panel</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">flip_ud</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="n">im_panel</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">log_scale</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="n">im_panel</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">interp</span> <span class="o">=</span> <span class="s1">&#39;gaussian&#39;</span>
+<span class="n">im_panel</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">interp</span> <span class="o">=</span> <span class="s1">'gaussian'</span>
 <span class="n">im_panel</span><span class="o">.</span><span class="n">redraw</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -494,7 +495,7 @@ same intensity intensity scale.</p></li>
 </aside></main>
   </div>
 <footer class="bz-footer">
-  <div class="bz-footer-copyright"><p class="bz-copyright">© Copyright 2026-08-31, Matthew Newville, The University of Chicago</p><p>
+  <div class="bz-footer-copyright"><p class="bz-copyright">© Copyright 2026, Matthew Newville, Christofanis Skordas, The University of Chicago</p><p>
     
     
     
@@ -522,5 +523,5 @@ same intensity intensity scale.</p></li>
   <label class="bz-overlay bz-overlay-primary" for="bz-sidebar-primary"></label>
   <label class="bz-overlay bz-overlay-secondary" for="bz-sidebar-secondary"></label>
   <input type="checkbox" name="bz-sidebar-primary" id="bz-sidebar-primary" aria-label="Toggle section navigation">
-  <input type="checkbox" name="bz-sidebar-secondary" id="bz-sidebar-secondary" aria-label="Toggle table of contents"><script src="_static/documentation_options.js?v=1c91c4ce"></script><script src="_static/doctools.js?v=fd6eb6e6"></script><script src="_static/sphinx_highlight.js?v=6ffebe34"></script><script src="_static/clipboard.min.js?v=a7894cd8"></script><script src="_static/copybutton.js?v=f281be69"></script><script src="_static/design-tabs.js?v=f930bc37"></script><script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script></body>
+  <input type="checkbox" name="bz-sidebar-secondary" id="bz-sidebar-secondary" aria-label="Toggle table of contents"><script src="_static/documentation_options.js?v=d7185403"></script><script src="_static/doctools.js?v=fd6eb6e6"></script><script src="_static/sphinx_highlight.js?v=6ffebe34"></script><script src="_static/clipboard.min.js?v=a7894cd8"></script><script src="_static/copybutton.js?v=f281be69"></script><script src="_static/design-tabs.js?v=f930bc37"></script><script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script></body>
 </html>

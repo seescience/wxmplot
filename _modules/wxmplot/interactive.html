@@ -51,7 +51,18 @@
       <path d="M9.598 1.591a.749.749 0 0 1 .785-.175 7.001 7.001 0 1 1-8.967 8.967.75.75 0 0 1 .961-.96 5.5 5.5 0 0 0 7.046-7.046.75.75 0 0 1 .175-.786Zm1.616 1.945a7 7 0 0 1-7.678 7.678 5.499 5.499 0 1 0 7.678-7.678Z"></path>
     </svg>
   </button>
-</div>
+</div><div class="bz-external-links">
+  <a
+      href="https://github.com/newville/wxmplot"
+      aria-label="GitHub"
+      data-tooltip="GitHub"
+      target="_blank"
+    >
+    
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M6.766 11.695C4.703 11.437 3.25 9.904 3.25 7.92c0-.806.281-1.677.75-2.258-.203-.532-.172-1.662.062-2.129.626-.081 1.469.258 1.969.726.594-.194 1.219-.291 1.985-.291.765 0 1.39.097 1.953.274.484-.451 1.343-.79 1.969-.709.218.435.25 1.564.046 2.113.5.613.766 1.436.766 2.274 0 1.984-1.453 3.485-3.547 3.759.531.355.891 1.129.891 2.016v1.678c0 .484.39.758.859.564C13.781 14.824 16 11.905 16 8.291 16 3.726 12.406 0 7.984 0 3.562 0 0 3.726 0 8.291c0 3.581 2.203 6.55 5.172 7.663A.595.595 0 0 0 6 15.389v-1.291c-.219.097-.5.162-.75.162-1.031 0-1.641-.581-2.078-1.662-.172-.435-.36-.693-.719-.742-.187-.016-.25-.097-.25-.193 0-.194.313-.339.625-.339.453 0 .844.29 1.25.887.313.468.641.678 1.031.678.391 0 .641-.146 1-.516.266-.275.469-.517.657-.678Z"></path></svg>
+    
+    </a>
+  </div>
   </div>
 </header><nav class="bz-header-tabs" aria-label="Primary Navigation"><label
   class="bz-sidebar-primary-toggle"
@@ -127,18 +138,18 @@
   </svg>
 </label></header><article class="bz-article-main" role="main"><h1>Source code for wxmplot.interactive</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="sd">Interactive wxmplot</span>
 
-<span class="sd"> provides simple &#39;plot()&#39; and &#39;imshow()&#39; functions to python interpreter</span>
+<span class="sd"> provides simple 'plot()' and 'imshow()' functions to python interpreter</span>
 
 <span class="sd"> plot(x, y):  display a simple XY line plot to a wxmplot.PlotFrame</span>
 
 <span class="sd"> imshow(array): display image of 2D array data on a wxmplot.ImageFrame</span>
 
-<span class="sd"> set_theme(themename): set plotting theme (&#39;auto&#39;, light&#39;, &#39;dark&#39;, &#39;seaborn&#39;, ...).</span>
+<span class="sd"> set_theme(themename): set plotting theme ('auto', light', 'dark', 'seaborn', ...).</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
@@ -148,11 +159,12 @@
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">wx</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">wx.lib.mixins.inspection</span>
-
+<span class="kn">from</span><span class="w"> </span><span class="nn">wxutils</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_cwd</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">wxutils.colors</span><span class="w"> </span><span class="kn">import</span> <span class="n">use_darkdetect</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">inputhook</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.plotframe</span><span class="w"> </span><span class="kn">import</span> <span class="n">PlotFrame</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.basepanel</span><span class="w"> </span><span class="kn">import</span> <span class="n">FILE_CHOICES</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.imageframe</span><span class="w"> </span><span class="kn">import</span> <span class="n">ImageFrame</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.stackedplotframe</span><span class="w"> </span><span class="kn">import</span> <span class="n">StackedPlotFrame</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">Themes</span><span class="p">,</span> <span class="n">DARK_THEME</span>
@@ -161,22 +173,22 @@
 <span class="n">PLOT_DISPLAYS</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="n">MAX_WINDOWS</span> <span class="o">=</span> <span class="mi">100</span>
 <span class="n">MAX_CURSHIST</span> <span class="o">=</span> <span class="mi">100</span>
-<span class="n">DEFAULT_THEME</span> <span class="o">=</span> <span class="s1">&#39;auto&#39;</span>
+<span class="n">DEFAULT_THEME</span> <span class="o">=</span> <span class="s1">'auto'</span>
 
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;wxapp&#39;</span><span class="p">,</span> <span class="s1">&#39;plot&#39;</span><span class="p">,</span> <span class="s1">&#39;newplot&#39;</span><span class="p">,</span> <span class="s1">&#39;imshow&#39;</span><span class="p">,</span> <span class="s1">&#39;get_wxapp&#39;</span><span class="p">,</span> <span class="s1">&#39;set_theme&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;available_themes&#39;</span><span class="p">,</span> <span class="s1">&#39;get_plot_window&#39;</span><span class="p">,</span> <span class="s1">&#39;get_image_window&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;update_trace&#39;</span><span class="p">,</span> <span class="s1">&#39;plot_setlimits&#39;</span><span class="p">,</span> <span class="s1">&#39;plot_text&#39;</span><span class="p">,</span> <span class="s1">&#39;plot_arrow&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;plot_marker&#39;</span><span class="p">,</span> <span class="s1">&#39;plot_axhline&#39;</span><span class="p">,</span> <span class="s1">&#39;plot_axvline&#39;</span><span class="p">,</span> <span class="s1">&#39;hist&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;contour&#39;</span><span class="p">,</span> <span class="s1">&#39;DEFAULT_THEME&#39;</span><span class="p">]</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'wxapp'</span><span class="p">,</span> <span class="s1">'plot'</span><span class="p">,</span> <span class="s1">'newplot'</span><span class="p">,</span> <span class="s1">'imshow'</span><span class="p">,</span> <span class="s1">'get_wxapp'</span><span class="p">,</span> <span class="s1">'set_theme'</span><span class="p">,</span>
+           <span class="s1">'available_themes'</span><span class="p">,</span> <span class="s1">'get_plot_window'</span><span class="p">,</span> <span class="s1">'get_image_window'</span><span class="p">,</span>
+           <span class="s1">'update_trace'</span><span class="p">,</span> <span class="s1">'plot_setlimits'</span><span class="p">,</span> <span class="s1">'plot_text'</span><span class="p">,</span> <span class="s1">'plot_arrow'</span><span class="p">,</span>
+           <span class="s1">'plot_marker'</span><span class="p">,</span> <span class="s1">'plot_axhline'</span><span class="p">,</span> <span class="s1">'plot_axvline'</span><span class="p">,</span> <span class="s1">'hist'</span><span class="p">,</span>
+           <span class="s1">'contour'</span><span class="p">,</span> <span class="s1">'DEFAULT_THEME'</span><span class="p">]</span>
 
 
 <span class="c1"># test whether this code is running in an IPython/Jupyter environment.</span>
-<span class="c1"># if so, try to set the &quot;IPython magic&quot; of &quot;%gui wx&quot;.</span>
+<span class="c1"># if so, try to set the "IPython magic" of "%gui wx".</span>
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">IPython</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_ipython</span>
     <span class="n">ipython</span> <span class="o">=</span> <span class="n">get_ipython</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">ipython</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">ipython</span><span class="o">.</span><span class="n">find_magic</span><span class="p">(</span><span class="s1">&#39;gui&#39;</span><span class="p">)(</span><span class="s1">&#39;wx&#39;</span><span class="p">)</span>
+        <span class="n">ipython</span><span class="o">.</span><span class="n">find_magic</span><span class="p">(</span><span class="s1">'gui'</span><span class="p">)(</span><span class="s1">'wx'</span><span class="p">)</span>
 <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
     <span class="n">ipython</span> <span class="o">=</span> <span class="kc">None</span>
 
@@ -184,7 +196,7 @@
 <div class="viewcode-block" id="get_wxapp">
 <a class="viewcode-back" href="../../interactive.html#wxmplot.interactive.get_wxapp">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_wxapp</span><span class="p">(</span><span class="n">redirect</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">clearSigInt</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;get the wx App</span>
+<span class="w">    </span><span class="sd">"""get the wx App</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        redirect(bool): whether to redirect output that would otherwise</span>
@@ -193,7 +205,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        a wx.App instance</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">global</span> <span class="n">wxapp</span>
     <span class="k">if</span> <span class="n">wxapp</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">wxapp</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">GetApp</span><span class="p">()</span>
@@ -204,11 +216,11 @@
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">wxmplotApp</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">App</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">mixins</span><span class="o">.</span><span class="n">inspection</span><span class="o">.</span><span class="n">InspectionMixin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;wrapper for wx apps, with optional inspection</span>
+<span class="w">    </span><span class="sd">"""wrapper for wx apps, with optional inspection</span>
 
 <span class="sd">    with_inspect (bool):            use wx inspection tool for debugging [False]</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">with_inspect</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kws</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">with_inspect</span> <span class="o">=</span> <span class="n">with_inspect</span>
         <span class="n">wx</span><span class="o">.</span><span class="n">App</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kws</span><span class="p">)</span>
@@ -227,11 +239,11 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">__finish_wx_mainloop__</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;run wxApp mainloop, allowing widget interaction</span>
+<span class="w">    </span><span class="sd">"""run wxApp mainloop, allowing widget interaction</span>
 <span class="sd">    until all plotting and image image windows are closed.</span>
 <span class="sd">    Note that this should not be necessary to run explicitly,</span>
 <span class="sd">    as it is registered to run when Python exits</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.05</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">app</span> <span class="o">=</span> <span class="n">get_wxapp</span><span class="p">()</span>
@@ -245,7 +257,7 @@
 <div class="viewcode-block" id="set_theme">
 <a class="viewcode-back" href="../../interactive.html#wxmplot.interactive.set_theme">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">set_theme</span><span class="p">(</span><span class="n">theme</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;set plotting theme by name with a theme name</span>
+<span class="w">    </span><span class="sd">"""set plotting theme by name with a theme name</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        theme(str): name of theme</span>
@@ -255,23 +267,23 @@
 <span class="sd">        None</span>
 
 <span class="sd">    Notes:</span>
-<span class="sd">      1. Example themese are: &#39;auto&#39;, &#39;light&#39;, &#39;dark&#39;, &#39;white-background&#39;,</span>
-<span class="sd">         &#39;matplotlib&#39;, &#39;seaborn&#39;, &#39;ggplot&#39;, &#39;bmh&#39;, &#39;fivethirtyeight&#39;.</span>
+<span class="sd">      1. Example themese are: 'auto', 'light', 'dark', 'white-background',</span>
+<span class="sd">         'matplotlib', 'seaborn', 'ggplot', 'bmh', 'fivethirtyeight'.</span>
 <span class="sd">      2. See available_themes() for the list of available themes.</span>
-<span class="sd">      3. The theme &#39;auto&#39; will reflect (and chnage with) the system dark-mode</span>
-<span class="sd">         setting, choosing &#39;light&#39; or &#39;dark&#39; as appropriate.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">      3. The theme 'auto' will reflect (and chnage with) the system dark-mode</span>
+<span class="sd">         setting, choosing 'light' or 'dark' as appropriate.</span>
+<span class="sd">    """</span>
     <span class="k">global</span> <span class="n">DEFAULT_THEME</span>
     <span class="k">if</span> <span class="n">theme</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">Themes</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
         <span class="n">DEFAULT_THEME</span> <span class="o">=</span> <span class="n">theme</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;theme &#39;</span><span class="si">%s</span><span class="s2">&#39; unavailable. use `availabale_themes()`&quot;</span> <span class="o">%</span> <span class="n">theme</span><span class="p">)</span></div>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"theme '</span><span class="si">%s</span><span class="s2">' unavailable. use `availabale_themes()`"</span> <span class="o">%</span> <span class="n">theme</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="available_themes">
 <a class="viewcode-back" href="../../interactive.html#wxmplot.interactive.available_themes">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">available_themes</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;list of available theme</span>
+<span class="w">    </span><span class="sd">"""list of available theme</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">    list of theme names.</span>
@@ -279,17 +291,17 @@
 <span class="sd">    Notes:</span>
 <span class="sd">    As of this writing, the list is:</span>
 
-<span class="sd">    &#39;auto&#39;, &#39;light&#39;, &#39;dark&#39;, &#39;white-background&#39;, &#39;matplotlib&#39;,</span>
-<span class="sd">    &#39;seaborn&#39;, &#39;ggplot&#39;, &#39;bmh&#39;, &#39;fivethirtyeight&#39;, &#39;grayscale&#39;,</span>
-<span class="sd">    &#39;dark_background&#39;, &#39;tableau-colorblind10&#39;, &#39;seaborn-bright&#39;,</span>
-<span class="sd">    &#39;seaborn-colorblind&#39;, &#39;seaborn-dark&#39;, &#39;seaborn-darkgrid&#39;,</span>
-<span class="sd">    &#39;seaborn-dark-palette&#39;, &#39;seaborn-deep&#39;, &#39;seaborn-notebook&#39;,</span>
-<span class="sd">    &#39;seaborn-muted&#39;, &#39;seaborn-pastel&#39;, &#39;seaborn-paper&#39;,</span>
-<span class="sd">    &#39;seaborn-poster&#39;, &#39;seaborn-talk&#39;, &#39;seaborn-ticks&#39;,</span>
-<span class="sd">    &#39;seaborn-white&#39;, &#39;seaborn-whitegrid&#39;, &#39;Solarize_Light2&#39;</span>
+<span class="sd">    'auto', 'light', 'dark', 'white-background', 'matplotlib',</span>
+<span class="sd">    'seaborn', 'ggplot', 'bmh', 'fivethirtyeight', 'grayscale',</span>
+<span class="sd">    'dark_background', 'tableau-colorblind10', 'seaborn-bright',</span>
+<span class="sd">    'seaborn-colorblind', 'seaborn-dark', 'seaborn-darkgrid',</span>
+<span class="sd">    'seaborn-dark-palette', 'seaborn-deep', 'seaborn-notebook',</span>
+<span class="sd">    'seaborn-muted', 'seaborn-pastel', 'seaborn-paper',</span>
+<span class="sd">    'seaborn-poster', 'seaborn-talk', 'seaborn-ticks',</span>
+<span class="sd">    'seaborn-white', 'seaborn-whitegrid', 'Solarize_Light2'</span>
 
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">Themes</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span></div>
 
 
@@ -301,10 +313,10 @@
         <span class="n">theme</span> <span class="o">=</span> <span class="n">DEFAULT_THEME</span> <span class="k">if</span> <span class="n">theme</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">theme</span>
 
         <span class="k">if</span> <span class="n">wintitle</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">wintitle</span>   <span class="o">=</span> <span class="s1">&#39;Plot Window </span><span class="si">%i</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">window</span>
+            <span class="n">wintitle</span>   <span class="o">=</span> <span class="s1">'Plot Window </span><span class="si">%i</span><span class="s1">'</span> <span class="o">%</span> <span class="n">window</span>
 
         <span class="n">PlotFrame</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">wintitle</span><span class="p">,</span>
-                           <span class="n">output_title</span><span class="o">=</span><span class="s1">&#39;plot&#39;</span><span class="p">,</span> <span class="n">exit_callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">onExit</span><span class="p">,</span>
+                           <span class="n">output_title</span><span class="o">=</span><span class="s1">'plot'</span><span class="p">,</span> <span class="n">exit_callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">onExit</span><span class="p">,</span>
                            <span class="n">theme</span><span class="o">=</span><span class="n">theme</span><span class="p">,</span> <span class="o">**</span><span class="n">kws</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -312,7 +324,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">Show</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Raise</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">cursor_callback</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">onCursor</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">cursor_mode</span> <span class="o">=</span> <span class="s1">&#39;zoom&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">cursor_mode</span> <span class="o">=</span> <span class="s1">'zoom'</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">window</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">window</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cursor_history</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="n">window</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">PLOT_DISPLAYS</span><span class="p">:</span>
@@ -325,19 +337,38 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">data_generator</span> <span class="o">=</span> <span class="n">data_generator</span>
         <span class="n">wx</span><span class="o">.</span><span class="n">CallAfter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start_poller</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">save_figure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">600</span><span class="p">):</span>
-<span class="w">      </span><span class="sd">&quot;&quot;&quot;save image to a png file</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save_figure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fname</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span> <span class="o">**</span><span class="n">kws</span><span class="p">):</span>
+<span class="w">      </span><span class="sd">"""save image to a png file</span>
 
 <span class="sd">      Arguments</span>
 <span class="sd">      ---------</span>
-<span class="sd">      fname  str or None  name of file, defaulting to Plot Panel&#39;s output_title</span>
-<span class="sd">      &quot;&quot;&quot;</span>
+<span class="sd">      fname  str or None  name of file, defaulting to Plot Panel's output_title</span>
+<span class="sd">      """</span>
       <span class="k">if</span> <span class="n">fname</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">fname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">output_title</span>
-      <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="n">dpi</span><span class="p">)</span>
+          <span class="k">try</span><span class="p">:</span>
+              <span class="n">fname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+          <span class="k">except</span><span class="p">:</span>
+              <span class="n">fname</span> <span class="o">=</span> <span class="s1">'Image'</span>
+
+      <span class="n">fname</span> <span class="o">=</span> <span class="n">fname</span> <span class="o">+</span> <span class="s1">'.png'</span>
+      <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="s1">' :";|/</span><span class="se">\\</span><span class="s1">'</span><span class="p">:</span> <span class="c1"># "</span>
+          <span class="n">fname</span> <span class="o">=</span> <span class="n">fname</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="s1">'_'</span><span class="p">)</span>
+
+      <span class="n">orig_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">get_cwd</span><span class="p">())</span>
+      <span class="n">dlg</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">FileDialog</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s1">'Save Plot Figure as...'</span><span class="p">,</span>
+                          <span class="n">defaultDir</span><span class="o">=</span><span class="n">orig_dir</span><span class="p">,</span>
+                          <span class="n">defaultFile</span><span class="o">=</span><span class="n">fname</span><span class="p">,</span>
+                          <span class="n">wildcard</span><span class="o">=</span><span class="n">FILE_CHOICES</span><span class="p">,</span>
+                          <span class="n">style</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">FD_SAVE</span><span class="o">|</span><span class="n">wx</span><span class="o">.</span><span class="n">FD_CHANGE_DIR</span><span class="p">)</span>
+
+      <span class="k">if</span> <span class="n">dlg</span><span class="o">.</span><span class="n">ShowModal</span><span class="p">()</span> <span class="o">==</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_OK</span><span class="p">:</span>
+          <span class="n">path</span> <span class="o">=</span> <span class="n">dlg</span><span class="o">.</span><span class="n">GetPath</span><span class="p">()</span>
+          <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="n">dpi</span><span class="p">)</span>
+          <span class="bp">self</span><span class="o">.</span><span class="n">write_message</span><span class="p">(</span><span class="s1">'Saved plot to </span><span class="si">%s</span><span class="s1">'</span> <span class="o">%</span> <span class="n">path</span><span class="p">)</span>
+
 
     <span class="k">def</span><span class="w"> </span><span class="nf">set_data_generator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_generator</span><span class="p">,</span> <span class="n">polltime</span><span class="o">=</span><span class="mi">25</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;set data generating function and polltime for live updates</span>
+<span class="w">        </span><span class="sd">"""set data generating function and polltime for live updates</span>
 
 <span class="sd">        Arguments</span>
 <span class="sd">        ---------</span>
@@ -362,7 +393,7 @@
 <span class="sd">        or</span>
 <span class="sd">            yield [(xnew, ynew), (xnew, y2new)]</span>
 
-<span class="sd">       &quot;&quot;&quot;</span>
+<span class="sd">       """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data_generator</span> <span class="o">=</span> <span class="n">data_generator</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">start_poller</span><span class="p">(</span><span class="n">polltime</span><span class="p">)</span>
 
@@ -398,18 +429,18 @@
             <span class="n">PLOT_DISPLAYS</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Destroy</span><span class="p">()</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">onCursor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">onCursor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s1">''</span><span class="p">,</span>
                 <span class="n">marker_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kws</span><span class="p">):</span>
         <span class="n">xval</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">number</span><span class="p">)</span> <span class="k">else</span> <span class="n">x</span>
         <span class="n">yval</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">number</span><span class="p">)</span> <span class="k">else</span> <span class="n">y</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cursor_history</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()))</span>
-        <span class="n">rmsg</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">rmsg</span> <span class="o">=</span> <span class="s1">''</span>
         <span class="k">if</span> <span class="n">marker_data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">_x</span><span class="p">,</span> <span class="n">_y</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">msg</span> <span class="o">=</span> <span class="n">marker_data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                <span class="n">rmsg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">msg</span><span class="si">}</span><span class="s1">&#39;</span>
-                <span class="k">if</span> <span class="n">label</span> <span class="o">!=</span> <span class="s1">&#39;_nolegend_&#39;</span><span class="p">:</span>
-                    <span class="n">rmsg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">msg</span><span class="si">}</span><span class="s1">&#39;</span>
+                <span class="n">rmsg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">msg</span><span class="si">}</span><span class="s1">'</span>
+                <span class="k">if</span> <span class="n">label</span> <span class="o">!=</span> <span class="s1">'_nolegend_'</span><span class="p">:</span>
+                    <span class="n">rmsg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">msg</span><span class="si">}</span><span class="s1">'</span>
             <span class="k">except</span><span class="p">:</span>
                 <span class="k">pass</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">write_message</span><span class="p">(</span><span class="n">rmsg</span><span class="p">,</span> <span class="n">panel</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
@@ -422,7 +453,7 @@
                  <span class="n">wintitle</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kws</span><span class="p">):</span>
         <span class="n">get_wxapp</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">wintitle</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">wintitle</span>   <span class="o">=</span> <span class="s1">&#39;Image Window </span><span class="si">%i</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">window</span>
+            <span class="n">wintitle</span>   <span class="o">=</span> <span class="s1">'Image Window </span><span class="si">%i</span><span class="s1">'</span> <span class="o">%</span> <span class="n">window</span>
 
         <span class="n">ImageFrame</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">wintitle</span><span class="p">,</span>
                             <span class="n">exit_callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">onExit</span><span class="p">,</span> <span class="o">**</span><span class="n">kws</span><span class="p">)</span>
@@ -454,13 +485,13 @@
 <div class="viewcode-block" id="get_plot_window">
 <a class="viewcode-back" href="../../interactive.html#wxmplot.interactive.get_plot_window">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_plot_window</span><span class="p">(</span><span class="n">win</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">wintitle</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">theme</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;return a plot display</span>
+<span class="w">    </span><span class="sd">"""return a plot display</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        win (int): index of Plot Window (1 to 100)</span>
 <span class="sd">        size (tuple): width, height in pixels of Plot Window</span>
 <span class="sd">        wintitle(str): text for Window title [Plot Window N]</span>
-<span class="sd">        theme (str): theme for Plot Window [&#39;auto&#39;]</span>
+<span class="sd">        theme (str): theme for Plot Window ['auto']</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        diplay, a wxmplot PlotFrame.</span>
@@ -469,7 +500,7 @@
 <span class="sd">        this will either return the existing PlotFrame for the</span>
 <span class="sd">        window index or create a new one.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">win</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">MAX_WINDOWS</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">win</span><span class="p">))))</span>
     <span class="k">if</span> <span class="n">win</span> <span class="ow">in</span> <span class="n">PLOT_DISPLAYS</span><span class="p">:</span>
         <span class="n">display</span> <span class="o">=</span> <span class="n">PLOT_DISPLAYS</span><span class="p">[</span><span class="n">win</span><span class="p">]</span>
@@ -484,7 +515,7 @@
 <div class="viewcode-block" id="get_image_window">
 <a class="viewcode-back" href="../../interactive.html#wxmplot.interactive.get_image_window">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_image_window</span><span class="p">(</span><span class="n">win</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">wintitle</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;return an image display</span>
+<span class="w">    </span><span class="sd">"""return an image display</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        win (int): index of Image Window (1 to 100)</span>
@@ -497,7 +528,7 @@
 <span class="sd">    Notes:</span>
 <span class="sd">        this will either return the existing ImageFrame for the</span>
 <span class="sd">        window index or create a new one.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">win</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">MAX_WINDOWS</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">win</span><span class="p">))))</span>
     <span class="k">if</span> <span class="n">win</span> <span class="ow">in</span> <span class="n">IMG_DISPLAYS</span><span class="p">:</span>
         <span class="n">display</span> <span class="o">=</span> <span class="n">IMG_DISPLAYS</span><span class="p">[</span><span class="n">win</span><span class="p">]</span>
@@ -510,8 +541,8 @@
 
 <div class="viewcode-block" id="plot">
 <a class="viewcode-back" href="../../interactive.html#wxmplot.interactive.plot">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">win</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">new</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">wintitle</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">theme</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kws</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;plot(x, y, win=1, new=False, ...)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">win</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">new</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">wintitle</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">theme</span><span class="o">=</span><span class="s1">'auto'</span><span class="p">,</span> <span class="o">**</span><span class="n">kws</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""plot(x, y, win=1, new=False, ...)</span>
 
 <span class="sd">    Plot trace of x, y arrays in a PlotFrame</span>
 
@@ -534,7 +565,7 @@
 <span class="sd">        ymin (float or None): minimum y value for plot range</span>
 <span class="sd">        ymax (float or None): maximum y value for plot range</span>
 <span class="sd">        use_dates (bool): whether to interpret x data as dates [False]</span>
-<span class="sd">        side (str): side for y-axis (&#39;left&#39; or &#39;right&#39;) [&#39;left&#39;]</span>
+<span class="sd">        side (str): side for y-axis ('left' or 'right') ['left']</span>
 <span class="sd">        size (tuple or None): width, height in pixels of Plot Window</span>
 <span class="sd">        wintitle (str or None): title for window frame</span>
 <span class="sd">        theme (str on None): plotting theme to use</span>
@@ -547,7 +578,7 @@
 <span class="sd">        ylog_scale (bool): whether to show y-axis as log-scale [False]</span>
 <span class="sd">        grid (bool): whether to draw background grid [True]</span>
 <span class="sd">        show_legend (bool or None): whether to show legend [False]</span>
-<span class="sd">        legend_loc (str): location for legend (see note 5) [&#39;best&#39;]</span>
+<span class="sd">        legend_loc (str): location for legend (see note 5) ['best']</span>
 <span class="sd">        legend_on  (bool): whether legend is within the main axes [True]</span>
 <span class="sd">        bgcolor (str on None): color of background plot area (from theme)</span>
 <span class="sd">        framecolor (str on None): color of outer frame area (from theme)</span>
@@ -565,21 +596,21 @@
 <span class="sd">    Notes:</span>
 <span class="sd">        0. If `y` is `None` (or not provided), the array for `x` becomes `y`,</span>
 <span class="sd">           and `x` will be set to the array index: `np.arange(len(y))`</span>
-<span class="sd">        1. colors can be names such as &#39;red&#39; or hex strings &#39;#RRGGBB&#39;.</span>
+<span class="sd">        1. colors can be names such as 'red' or hex strings '#RRGGBB'.</span>
 <span class="sd">           by default, they are set by the theme</span>
-<span class="sd">        2. styles can be one of &#39;solid&#39;, &#39;short dashed&#39;, &#39;dash-dot&#39;,</span>
-<span class="sd">           &#39;dashed&#39;, &#39;dotted&#39;, &#39;long-dashed&#39;.</span>
-<span class="sd">        3. markers can be one of  &#39;no symbol&#39;, &#39;o&#39;, &#39;+&#39;, &#39;x&#39;, &#39;square&#39;,</span>
-<span class="sd">           &#39;diamond&#39;, &#39;thin diamond&#39;, &#39;^&#39;, &#39;v&#39;, &#39;&gt;&#39;, &#39;&lt;&#39;, &#39;|&#39;, &#39;_&#39;,</span>
-<span class="sd">           &#39;hexagon&#39;, &#39;pentagon&#39;, &#39;tripod 1&#39;, or &#39;tripod 2&#39;</span>
-<span class="sd">        4. drawstyle can be one of &#39;default&#39;, &#39;steps-pre&#39;,&#39;steps-mid&#39;,</span>
-<span class="sd">           or &#39;steps-post&#39;.</span>
-<span class="sd">        5. legend_loc can be one of &#39;best&#39;, &#39;upper right&#39; , &#39;lower right&#39;,</span>
-<span class="sd">           &#39;center right&#39;, &#39;upper left&#39;, &#39;lower left&#39;,  &#39;center left&#39;,</span>
-<span class="sd">           &#39;upper center&#39;, &#39;lower center&#39;, &#39;center&#39;</span>
-<span class="sd">        6. axis_style can be one of &#39;open&#39;, &#39;box&#39;, &#39;bottom&#39;.</span>
+<span class="sd">        2. styles can be one of 'solid', 'short dashed', 'dash-dot',</span>
+<span class="sd">           'dashed', 'dotted', 'long-dashed'.</span>
+<span class="sd">        3. markers can be one of  'no symbol', 'o', '+', 'x', 'square',</span>
+<span class="sd">           'diamond', 'thin diamond', '^', 'v', '&gt;', '&lt;', '|', '_',</span>
+<span class="sd">           'hexagon', 'pentagon', 'tripod 1', or 'tripod 2'</span>
+<span class="sd">        4. drawstyle can be one of 'default', 'steps-pre','steps-mid',</span>
+<span class="sd">           or 'steps-post'.</span>
+<span class="sd">        5. legend_loc can be one of 'best', 'upper right' , 'lower right',</span>
+<span class="sd">           'center right', 'upper left', 'lower left',  'center left',</span>
+<span class="sd">           'upper center', 'lower center', 'center'</span>
+<span class="sd">        6. axis_style can be one of 'open', 'box', 'bottom'.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">plotter</span> <span class="o">=</span> <span class="n">get_plot_window</span><span class="p">(</span><span class="n">win</span><span class="o">=</span><span class="n">win</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">wintitle</span><span class="o">=</span><span class="n">wintitle</span><span class="p">,</span>
                              <span class="n">theme</span><span class="o">=</span><span class="n">theme</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">plotter</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -594,7 +625,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">newplot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">win</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">wintitle</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kws</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;newplot(x, y, ...)</span>
+<span class="w">    </span><span class="sd">"""newplot(x, y, ...)</span>
 
 <span class="sd">    Plot trace of x, y arrays in a PlotFrame, clearing any</span>
 <span class="sd">    data currently shown in the PlotFrame.</span>
@@ -603,15 +634,15 @@
 <span class="sd">        This is equivalent to</span>
 <span class="sd">        plot(x, y, ...., new=True)</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">kws</span><span class="p">[</span><span class="s1">&#39;new&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="sd">    """</span>
+    <span class="n">kws</span><span class="p">[</span><span class="s1">'new'</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="k">return</span> <span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">win</span><span class="o">=</span><span class="n">win</span><span class="p">,</span> <span class="n">wintitle</span><span class="o">=</span><span class="n">wintitle</span><span class="p">,</span> <span class="o">**</span><span class="n">kws</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="set_data_generator">
 <a class="viewcode-back" href="../../interactive.html#wxmplot.interactive.set_data_generator">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">set_data_generator</span><span class="p">(</span><span class="n">data_generator</span><span class="p">,</span> <span class="n">polltime</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">win</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;set_data_generator(data_generator, polltime=25, win=1)</span>
+<span class="w">    </span><span class="sd">"""set_data_generator(data_generator, polltime=25, win=1)</span>
 
 <span class="sd">    Set data generator function or generator for a plot window that will be</span>
 <span class="sd">    called to generate new data to be displayed. The generator or</span>
@@ -642,7 +673,7 @@
 <span class="sd">        return [(xnew, ynew), (xnew, y2new)]</span>
 <span class="sd">    or</span>
 <span class="sd">        yield [(xnew, ynew), (xnew, y2new)]</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">plotter</span> <span class="o">=</span> <span class="n">get_plot_window</span><span class="p">(</span><span class="n">win</span><span class="o">=</span><span class="n">win</span><span class="p">)</span>
     <span class="n">plotter</span><span class="o">.</span><span class="n">set_data_generator</span><span class="p">(</span><span class="n">data_generator</span><span class="p">,</span> <span class="n">polltime</span><span class="o">=</span><span class="n">polltime</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">plotter</span></div>
@@ -652,7 +683,7 @@
 <div class="viewcode-block" id="update_trace">
 <a class="viewcode-back" href="../../interactive.html#wxmplot.interactive.update_trace">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">update_trace</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">trace</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">win</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kws</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    update a plot trace with new data, avoiding complete redraw</span>
 <span class="sd">    This can significantly descrease drawing time:</span>
 
@@ -661,9 +692,9 @@
 <span class="sd">        y (array-like):  abscissa values (x and y must be same size)</span>
 <span class="sd">        trace (int): which plot trace to update [1]</span>
 <span class="sd">        win (int): index of Plot Window [1]</span>
-<span class="sd">        side (str): side for y-axis (&#39;left&#39; or &#39;right&#39;) [&#39;left&#39;]</span>
+<span class="sd">        side (str): side for y-axis ('left' or 'right') ['left']</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">plotter</span> <span class="o">=</span> <span class="n">get_plot_window</span><span class="p">(</span><span class="n">win</span><span class="o">=</span><span class="n">win</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">plotter</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span>
@@ -675,7 +706,7 @@
 <div class="viewcode-block" id="plot_setlimits">
 <a class="viewcode-back" href="../../interactive.html#wxmplot.interactive.plot_setlimits">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">plot_setlimits</span><span class="p">(</span><span class="n">xmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">xmax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ymin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ymax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">win</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;set plot view limits for plot in window `win`</span>
+<span class="w">    </span><span class="sd">"""set plot view limits for plot in window `win`</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        xmin (float): minimum x value</span>
@@ -683,7 +714,7 @@
 <span class="sd">        ymin (float): minimum y value</span>
 <span class="sd">        ymax (float): maximum y value</span>
 <span class="sd">        win (int): index of plot window</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">plotter</span> <span class="o">=</span> <span class="n">get_plot_window</span><span class="p">(</span><span class="n">win</span><span class="o">=</span><span class="n">win</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">plotter</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span>
@@ -692,10 +723,10 @@
 
 <div class="viewcode-block" id="plot_text">
 <a class="viewcode-back" href="../../interactive.html#wxmplot.interactive.plot_text">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">plot_text</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">win</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span>
-              <span class="n">side</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span><span class="o">**</span><span class="n">kws</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_text</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">win</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">'left'</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">'center'</span><span class="p">,</span>
+              <span class="n">side</span><span class="o">=</span><span class="s1">'left'</span><span class="p">,</span><span class="o">**</span><span class="n">kws</span><span class="p">):</span>
 
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;plot_text(x, y, text, win=1, options)</span>
+<span class="w">    </span><span class="sd">"""plot_text(x, y, text, win=1, options)</span>
 
 <span class="sd">    add text at x, y coordinates of a plot</span>
 
@@ -704,13 +735,13 @@
 <span class="sd">        x (float): x position of text</span>
 <span class="sd">        y (float): y position of text</span>
 <span class="sd">        win (int): index of plot window</span>
-<span class="sd">        rotation (str or float):  text rotation. angle in degrees or &#39;vertical&#39; or &#39;horizontal&#39;</span>
-<span class="sd">        ha (str):   horizontal alignment (&#39;left&#39;, &#39;center&#39;, &#39;right&#39;)</span>
-<span class="sd">        va (str)    vertical alignment (&#39;top&#39;, &#39;center&#39;, &#39;bottom&#39;, &#39;baseline&#39;)</span>
-<span class="sd">        side (str): which axis to use (&#39;left&#39; or &#39;right&#39;) for coordinates.</span>
+<span class="sd">        rotation (str or float):  text rotation. angle in degrees or 'vertical' or 'horizontal'</span>
+<span class="sd">        ha (str):   horizontal alignment ('left', 'center', 'right')</span>
+<span class="sd">        va (str)    vertical alignment ('top', 'center', 'bottom', 'baseline')</span>
+<span class="sd">        side (str): which axis to use ('left' or 'right') for coordinates.</span>
 
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">plotter</span> <span class="o">=</span> <span class="n">get_plot_window</span><span class="p">(</span><span class="n">win</span><span class="o">=</span><span class="n">win</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">plotter</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span>
@@ -720,11 +751,11 @@
 
 <div class="viewcode-block" id="plot_arrow">
 <a class="viewcode-back" href="../../interactive.html#wxmplot.interactive.plot_arrow">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">plot_arrow</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">win</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">side</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span>
-               <span class="n">shape</span><span class="o">=</span><span class="s1">&#39;full&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_arrow</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">win</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">side</span><span class="o">=</span><span class="s1">'left'</span><span class="p">,</span>
+               <span class="n">shape</span><span class="o">=</span><span class="s1">'full'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'black'</span><span class="p">,</span>
                <span class="n">width</span><span class="o">=</span><span class="mf">0.00</span><span class="p">,</span> <span class="n">head_width</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">head_length</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span>
                <span class="n">size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kws</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;plot_arrow(x1, y1, x2, y2, win=1, **kws)</span>
+<span class="w">    </span><span class="sd">"""plot_arrow(x1, y1, x2, y2, win=1, **kws)</span>
 
 <span class="sd">    draw arrow from x1, y1 to x2, y2.</span>
 
@@ -733,16 +764,16 @@
 <span class="sd">        y1 (float): starting y coordinate</span>
 <span class="sd">        x2 (float): ending x coordinate</span>
 <span class="sd">        y2 (float): ending y coordinate</span>
-<span class="sd">        side (str): which axis to use (&#39;left&#39; or &#39;right&#39;) for coordinates.</span>
-<span class="sd">        shape (str):  arrow head shape (&#39;full&#39;, &#39;left&#39;, &#39;right&#39;)</span>
-<span class="sd">        color (str):  arrow color (&#39;black&#39;)</span>
+<span class="sd">        side (str): which axis to use ('left' or 'right') for coordinates.</span>
+<span class="sd">        shape (str):  arrow head shape ('full', 'left', 'right')</span>
+<span class="sd">        color (str):  arrow color ('black')</span>
 <span class="sd">        width (float):  width of arrow line (in points. default=0.0)</span>
 <span class="sd">        head_width (float):  width of arrow head (in points. default=0.05)</span>
 <span class="sd">        head_length (float):  length of arrow head (in points. default=0.25)</span>
 <span class="sd">        overhang (float):   amount the arrow is swept back (in points. default=0)</span>
 <span class="sd">        win (int): index of plot window</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">plotter</span> <span class="o">=</span> <span class="n">get_plot_window</span><span class="p">(</span><span class="n">win</span><span class="o">=</span><span class="n">win</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">plotter</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span>
@@ -754,10 +785,10 @@
 
 <div class="viewcode-block" id="plot_marker">
 <a class="viewcode-back" href="../../interactive.html#wxmplot.interactive.plot_marker">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">plot_marker</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">win</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                <span class="n">label</span><span class="o">=</span><span class="s1">&#39;_nolegend_&#39;</span><span class="p">,</span> <span class="n">report_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kws</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_marker</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">'o'</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'black'</span><span class="p">,</span> <span class="n">win</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                <span class="n">label</span><span class="o">=</span><span class="s1">'_nolegend_'</span><span class="p">,</span> <span class="n">report_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kws</span><span class="p">):</span>
 
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;plot_marker(x, y, marker=&#39;o&#39;, size=4, color=&#39;black&#39;)</span>
+<span class="w">    </span><span class="sd">"""plot_marker(x, y, marker='o', size=4, color='black')</span>
 
 <span class="sd">    draw a marker at x, y</span>
 
@@ -766,15 +797,15 @@
 <span class="sd">        y float):  y coordinate</span>
 <span class="sd">        marker (str): symbol to draw at each point (see Note 1)</span>
 <span class="sd">        size (float): marker size [4]</span>
-<span class="sd">        color (str): marker color  [&#39;black&#39;]</span>
+<span class="sd">        color (str): marker color  ['black']</span>
 <span class="sd">        win (int): index of plot window</span>
 
 <span class="sd">    Notes:</span>
-<span class="sd">        1. marker can be one of (&#39;+&#39;, &#39;o&#39;, &#39;x&#39;, &#39;square&#39;,</span>
-<span class="sd">           &#39;diamond&#39;, &#39;thin diamond&#39;, &#39;^&#39;, &#39;v&#39;, &#39;&gt;&#39;, &#39;&lt;&#39;, &#39;|&#39;, &#39;_&#39;,</span>
-<span class="sd">           &#39;hexagon&#39;, &#39;pentagon&#39;, &#39;tripod 1&#39;, or &#39;tripod 2&#39;)</span>
+<span class="sd">        1. marker can be one of ('+', 'o', 'x', 'square',</span>
+<span class="sd">           'diamond', 'thin diamond', '^', 'v', '&gt;', '&lt;', '|', '_',</span>
+<span class="sd">           'hexagon', 'pentagon', 'tripod 1', or 'tripod 2')</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">plotter</span> <span class="o">=</span> <span class="n">get_plot_window</span><span class="p">(</span><span class="n">win</span><span class="o">=</span><span class="n">win</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">plotter</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span>
@@ -790,8 +821,8 @@
 <a class="viewcode-back" href="../../interactive.html#wxmplot.interactive.plot_axhline">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">plot_axhline</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">xmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">xmax</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">win</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">delay_draw</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">report_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">label</span><span class="o">=</span><span class="s1">&#39;_noglegend_&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kws</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;plot_axhline(y, xmin=None, ymin=None, **kws)</span>
+                 <span class="n">label</span><span class="o">=</span><span class="s1">'_noglegend_'</span><span class="p">,</span> <span class="o">**</span><span class="n">kws</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""plot_axhline(y, xmin=None, ymin=None, **kws)</span>
 
 <span class="sd">    plot a horizontal line spanning the plot axes</span>
 
@@ -801,7 +832,7 @@
 <span class="sd">        xmax (float): ending x fraction (window units -- not user units!)</span>
 <span class="sd">        win (int): index of plot window</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">plotter</span> <span class="o">=</span> <span class="n">get_plot_window</span><span class="p">(</span><span class="n">win</span><span class="o">=</span><span class="n">win</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">plotter</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span>
@@ -818,8 +849,8 @@
 <a class="viewcode-back" href="../../interactive.html#wxmplot.interactive.plot_axvline">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">plot_axvline</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">ymin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ymax</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">win</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">delay_draw</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">report_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">label</span><span class="o">=</span><span class="s1">&#39;_nolegend_&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kws</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;plot_axvline(y, xmin=None, ymin=None, **kws)</span>
+                 <span class="n">label</span><span class="o">=</span><span class="s1">'_nolegend_'</span><span class="p">,</span> <span class="o">**</span><span class="n">kws</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""plot_axvline(y, xmin=None, ymin=None, **kws)</span>
 
 <span class="sd">    plot a vertical line spanning the plot axes</span>
 
@@ -829,13 +860,13 @@
 <span class="sd">        ymax (float): ending y fraction (window units -- not user units!)</span>
 <span class="sd">        win (int): index of plot window</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">plotter</span> <span class="o">=</span> <span class="n">get_plot_window</span><span class="p">(</span><span class="n">win</span><span class="o">=</span><span class="n">win</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">plotter</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span>
     <span class="n">plotter</span><span class="o">.</span><span class="n">Raise</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">label</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;_nolegend_&#39;</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="s1">'_nolegend_'</span>
     <span class="n">plotter</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">ymin</span><span class="o">=</span><span class="n">ymin</span><span class="p">,</span> <span class="n">ymax</span><span class="o">=</span><span class="n">ymax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span> <span class="o">**</span><span class="n">kws</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">report_data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">conf</span> <span class="o">=</span> <span class="n">plotter</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">conf</span>
@@ -848,14 +879,14 @@
 <a class="viewcode-back" href="../../interactive.html#wxmplot.interactive.hist">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">hist</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">win</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">new</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
          <span class="n">force_draw</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kws</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;display a histogram</span>
+<span class="w">    </span><span class="sd">"""display a histogram</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        x (array-like): array of values</span>
 <span class="sd">        bins (int): number of bins to show</span>
 <span class="sd">        win (int): index of plot window</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">plotter</span> <span class="o">=</span> <span class="n">get_plot_window</span><span class="p">(</span><span class="n">win</span><span class="o">=</span><span class="n">win</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">plotter</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -876,7 +907,7 @@
 <a class="viewcode-back" href="../../interactive.html#wxmplot.interactive.imshow">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">imshow</span><span class="p">(</span><span class="nb">map</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">colormap</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">win</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
            <span class="n">wintitle</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">800</span><span class="p">,</span> <span class="mi">600</span><span class="p">),</span> <span class="n">contrast_level</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="o">**</span><span class="n">kws</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;imshow(map, ...)</span>
+<span class="w">    </span><span class="sd">"""imshow(map, ...)</span>
 
 <span class="sd">    Display an 2-D array of intensities as a false-color map</span>
 
@@ -888,13 +919,13 @@
 <span class="sd">        win (int): index of Image Window (1 to %d)</span>
 <span class="sd">        size (tuple): width, height in pixels of Image Window</span>
 <span class="sd">        wintitle(str): text for Window title [Image Window N]</span>
-<span class="sd">        xlabel (str): label for horizontal axis [&#39;X&#39;]</span>
-<span class="sd">        ylabel (str): label for horizontal axis [&#39;Y&#39;]</span>
-<span class="sd">        style (str): display style (&#39;image&#39; or &#39;contour&#39;) [&#39;image&#39;]</span>
+<span class="sd">        xlabel (str): label for horizontal axis ['X']</span>
+<span class="sd">        ylabel (str): label for horizontal axis ['Y']</span>
+<span class="sd">        style (str): display style ('image' or 'contour') ['image']</span>
 <span class="sd">        nlevels (int): number of levels for contour</span>
 <span class="sd">        contour_labels (bool): whether to show contour labels [True]</span>
 <span class="sd">        show_axis (bool): whether to shos Axis [False]</span>
-<span class="sd">        contrast_level (float or None): percent level for contrast [&#39;0.1&#39;]</span>
+<span class="sd">        contrast_level (float or None): percent level for contrast ['0.1']</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        img, an ImageFrame</span>
@@ -904,7 +935,7 @@
 <span class="sd">           single-color map or (NY, NX, 3) array for an RGB map</span>
 
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">img</span> <span class="o">=</span> <span class="n">get_image_window</span><span class="p">(</span><span class="n">win</span><span class="o">=</span><span class="n">win</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span>
                           <span class="n">wintitle</span><span class="o">=</span><span class="n">wintitle</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">img</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -917,15 +948,15 @@
 <div class="viewcode-block" id="contour">
 <a class="viewcode-back" href="../../interactive.html#wxmplot.interactive.contour">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">contour</span><span class="p">(</span><span class="nb">map</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kws</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;contour(map, ...)</span>
+<span class="w">    </span><span class="sd">"""contour(map, ...)</span>
 
 <span class="sd">    Display an 2-D array of intensities as a contour plot</span>
 
 <span class="sd">    Notes:</span>
 <span class="sd">        This is equivalent to</span>
-<span class="sd">        imshow(map, ..., style=&#39;contour&#39;)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">kws</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s1">&#39;contour&#39;</span><span class="p">))</span>
+<span class="sd">        imshow(map, ..., style='contour')</span>
+<span class="sd">    """</span>
+    <span class="n">kws</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s1">'contour'</span><span class="p">))</span>
     <span class="n">imshow</span><span class="p">(</span><span class="nb">map</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kws</span><span class="p">)</span></div>
 
 </pre></div>
@@ -938,14 +969,25 @@
 </footer></main>
   </div>
 <footer class="bz-footer">
-  <div class="bz-footer-copyright"><p class="bz-copyright">© Copyright 2026-08-31, Matthew Newville, The University of Chicago</p><p>
+  <div class="bz-footer-copyright"><p class="bz-copyright">© Copyright 2026, Matthew Newville, Christofanis Skordas, The University of Chicago</p><p>
     
     
     
       Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a href="https://github.com/aksiome/breeze">Breeze theme</a>.
     
   </p>
-</div>
+</div><div class="bz-external-links">
+  <a
+      href="https://github.com/newville/wxmplot"
+      aria-label="GitHub"
+      data-tooltip="GitHub"
+      target="_blank"
+    >
+    
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M10.303 16.652c-2.837-.344-4.835-2.385-4.835-5.028 0-1.074.387-2.235 1.031-3.008-.279-.709-.236-2.214.086-2.837.86-.107 2.02.344 2.708.967.816-.258 1.676-.386 2.728-.386 1.053 0 1.913.128 2.686.365.666-.602 1.848-1.053 2.708-.946.3.581.344 2.085.064 2.815.688.817 1.053 1.913 1.053 3.03 0 2.643-1.998 4.641-4.877 5.006.73.473 1.224 1.504 1.224 2.686v2.235c0 .644.537 1.01 1.182.752 3.889-1.483 6.94-5.372 6.94-10.185 0-6.081-4.942-11.044-11.022-11.044-6.081 0-10.98 4.963-10.98 11.044a10.84 10.84 0 0 0 7.112 10.206c.58.215 1.139-.172 1.139-.752v-1.719a2.768 2.768 0 0 1-1.032.215c-1.418 0-2.256-.773-2.857-2.213-.237-.58-.495-.924-.989-.988-.258-.022-.344-.129-.344-.258 0-.258.43-.451.86-.451.623 0 1.16.386 1.719 1.181.43.623.881.903 1.418.903.537 0 .881-.194 1.375-.688.365-.365.645-.687.903-.902Z"></path></svg>
+    
+    </a>
+  </div>
 </footer><a href="#" class="bz-back-to-top">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
       <path d="m5 12 7-7 7 7"/><path d="M12 19V5"/>
@@ -955,5 +997,5 @@
   <label class="bz-overlay bz-overlay-primary" for="bz-sidebar-primary"></label>
   <label class="bz-overlay bz-overlay-secondary" for="bz-sidebar-secondary"></label>
   <input type="checkbox" name="bz-sidebar-primary" id="bz-sidebar-primary" aria-label="Toggle section navigation">
-  <input type="checkbox" name="bz-sidebar-secondary" id="bz-sidebar-secondary" aria-label="Toggle table of contents"><script src="../../_static/documentation_options.js?v=1c91c4ce"></script><script src="../../_static/doctools.js?v=fd6eb6e6"></script><script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script><script src="../../_static/clipboard.min.js?v=a7894cd8"></script><script src="../../_static/copybutton.js?v=f281be69"></script><script src="../../_static/design-tabs.js?v=f930bc37"></script><script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script></body>
+  <input type="checkbox" name="bz-sidebar-secondary" id="bz-sidebar-secondary" aria-label="Toggle table of contents"><script src="../../_static/documentation_options.js?v=d7185403"></script><script src="../../_static/doctools.js?v=fd6eb6e6"></script><script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script><script src="../../_static/clipboard.min.js?v=a7894cd8"></script><script src="../../_static/copybutton.js?v=f281be69"></script><script src="../../_static/design-tabs.js?v=f930bc37"></script><script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script></body>
 </html>

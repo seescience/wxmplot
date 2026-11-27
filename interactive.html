@@ -211,15 +211,15 @@ session might look like this:</p>
 Jupyter console 6.6.3
 
 Python 3.13.9 | packaged by conda-forge | (main, Oct 22 2025, 23:31:04) [Clang 19.1.7 ]
-Type &#39;copyright&#39;, &#39;credits&#39; or &#39;license&#39; for more information
-IPython 9.7.0 -- An enhanced Interactive Python. Type &#39;?&#39; for help.
+Type 'copyright', 'credits' or 'license' for more information
+IPython 9.7.0 -- An enhanced Interactive Python. Type '?' for help.
 Tip: Use `%timeit` or `%%timeit`, and the  `-r`, `-n`, and `-o`
 option    s to easily profile your code.
 
 In [1]: import numpy as np
 In [2]: import wxmplot.interactive as wi
 In [3]: x = np.linspace(0, 20, 101)
-In [4]: wi.plot(x, np.sin(x), xlabel=&#39;t (sec)&#39;)
+In [4]: wi.plot(x, np.sin(x), xlabel='t (sec)')
 Out[4]: &lt;wxmplot.interactive.PlotDisplay at 0x11ef74290&gt;
 </pre></div>
 </div>
@@ -231,7 +231,7 @@ after it is drown.</p>
 <p>For example, from the Plot Configuration window we could change the
 theme to ‘Seaborn’ and set the label for this trace to be ‘sine’.
 Then from the Jupyter console we can continue:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">5</span><span class="p">]:</span> <span class="n">wi</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mf">1.5</span><span class="o">*</span><span class="n">x</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;cosine&#39;</span><span class="p">,</span> <span class="n">show_legend</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">5</span><span class="p">]:</span> <span class="n">wi</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mf">1.5</span><span class="o">*</span><span class="n">x</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">'cosine'</span><span class="p">,</span> <span class="n">show_legend</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">Out</span><span class="p">[</span><span class="mi">5</span><span class="p">]:</span> <span class="o">&lt;</span><span class="n">wxmplot</span><span class="o">.</span><span class="n">interactive</span><span class="o">.</span><span class="n">PlotDisplay</span> <span class="n">at</span> <span class="mh">0x10db88678</span><span class="o">&gt;</span>
 </pre></div>
 </div>
@@ -242,19 +242,19 @@ Then from the Jupyter console we can continue:</p>
 with the legend displayed, clicking on any of the labels in the legend will
 toggle the display of that curve.  If we want to clear the data and plot
 something new, we might do something like:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">6</span><span class="p">]:</span> <span class="n">wi</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;xlogx&#39;</span><span class="p">,</span> <span class="n">new</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">6</span><span class="p">]:</span> <span class="n">wi</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">'xlogx'</span><span class="p">,</span> <span class="n">new</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">Out</span><span class="p">[</span><span class="mi">6</span><span class="p">]:</span> <span class="o">&lt;</span><span class="n">wxmplot</span><span class="o">.</span><span class="n">interactive</span><span class="o">.</span><span class="n">PlotDisplay</span> <span class="n">at</span> <span class="mh">0x10db88678</span><span class="o">&gt;</span>
 </pre></div>
 </div>
 <p>We can also place a text string, arrow, horizontal, or vertical line on the
 plot, as with:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">7</span><span class="p">]:</span> <span class="n">wi</span><span class="o">.</span><span class="n">plot_text</span><span class="p">(</span><span class="s1">&#39;hello!&#39;</span><span class="p">,</span> <span class="mf">9.1</span><span class="p">,</span> <span class="mf">0.87</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">7</span><span class="p">]:</span> <span class="n">wi</span><span class="o">.</span><span class="n">plot_text</span><span class="p">(</span><span class="s1">'hello!'</span><span class="p">,</span> <span class="mf">9.1</span><span class="p">,</span> <span class="mf">0.87</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>and so forth.</p>
 <p>If we wanted to bring up a second Line Plot window, we can use the
 <strong>win=2</strong> option:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">8</span><span class="p">]:</span> <span class="n">wi</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="o">/</span><span class="mi">8</span><span class="p">)</span> <span class="p">,</span> <span class="n">win</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">theme</span><span class="o">=</span><span class="s1">&#39;ggplot&#39;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">8</span><span class="p">]:</span> <span class="n">wi</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="o">/</span><span class="mi">8</span><span class="p">)</span> <span class="p">,</span> <span class="n">win</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">theme</span><span class="o">=</span><span class="s1">'ggplot'</span><span class="p">)</span>
 <span class="n">Out</span><span class="p">[</span><span class="mi">8</span><span class="p">]:</span> <span class="o">&lt;</span><span class="n">wxmplot</span><span class="o">.</span><span class="n">interactive</span><span class="o">.</span><span class="n">PlotDisplay</span> <span class="n">at</span> <span class="mh">0x110b2fb88</span><span class="o">&gt;</span>
 </pre></div>
 </div>
@@ -837,7 +837,7 @@ order. Only the most recent 100 cursor events will be retained.</p>
 </aside></main>
   </div>
 <footer class="bz-footer">
-  <div class="bz-footer-copyright"><p class="bz-copyright">© Copyright 2026-08-31, Matthew Newville, The University of Chicago</p><p>
+  <div class="bz-footer-copyright"><p class="bz-copyright">© Copyright 2026, Matthew Newville, Christofanis Skordas, The University of Chicago</p><p>
     
     
     
@@ -865,5 +865,5 @@ order. Only the most recent 100 cursor events will be retained.</p>
   <label class="bz-overlay bz-overlay-primary" for="bz-sidebar-primary"></label>
   <label class="bz-overlay bz-overlay-secondary" for="bz-sidebar-secondary"></label>
   <input type="checkbox" name="bz-sidebar-primary" id="bz-sidebar-primary" aria-label="Toggle section navigation">
-  <input type="checkbox" name="bz-sidebar-secondary" id="bz-sidebar-secondary" aria-label="Toggle table of contents"><script src="_static/documentation_options.js?v=1c91c4ce"></script><script src="_static/doctools.js?v=fd6eb6e6"></script><script src="_static/sphinx_highlight.js?v=6ffebe34"></script><script src="_static/clipboard.min.js?v=a7894cd8"></script><script src="_static/copybutton.js?v=f281be69"></script><script src="_static/design-tabs.js?v=f930bc37"></script><script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script></body>
+  <input type="checkbox" name="bz-sidebar-secondary" id="bz-sidebar-secondary" aria-label="Toggle table of contents"><script src="_static/documentation_options.js?v=d7185403"></script><script src="_static/doctools.js?v=fd6eb6e6"></script><script src="_static/sphinx_highlight.js?v=6ffebe34"></script><script src="_static/clipboard.min.js?v=a7894cd8"></script><script src="_static/copybutton.js?v=f281be69"></script><script src="_static/design-tabs.js?v=f930bc37"></script><script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script></body>
 </html>
