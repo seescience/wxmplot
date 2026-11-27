@@ -9,13 +9,12 @@ import os
 from math import log10
 
 import wx
-from wxutils import get_cwd
+import pytz
 import numpy as np
-import matplotlib
+from pyshortcuts import uname, get_cwd, gformat
 from matplotlib.widgets import Lasso
 from matplotlib import dates
 from matplotlib.backends.backend_wx import RendererWx
-import pytz
 
 from .utils import Printer, MenuItem
 
@@ -40,8 +39,7 @@ class BasePanel(wx.Panel):
 
         wx.Panel.__init__(self, parent, -1, **kws)
 
-        self.is_macosx = (os.name == 'posix' and
-                          sys.platform.lower().startswith('darw'))
+        self.is_macosx = uname == 'darwin'
 
         self.messenger = messenger
         if messenger is None:
@@ -220,7 +218,7 @@ class BasePanel(wx.Panel):
                 self.canvas.print_figure(path, transparent=transparent, dpi=dpi)
             if (path.find(self.launch_dir) ==  0):
                 path = path[len(self.launch_dir)+1:]
-            self.write_message('Saved plot to %s' % path)
+            self.write_message(f'Saved plot to {path}')
         os.chdir(orig_dir)
 
 
@@ -246,7 +244,7 @@ class BasePanel(wx.Panel):
         mode = self.cursor_mode
         if mode not in self.cursor_modes:
             return
-        if hasattr(self.cursor_modes[mode][eventname], '__call__'):
+        if callable(self.cursor_modes[mode][eventname]):
             self.cursor_modes[mode][eventname](**kws)
 
     ####
@@ -271,7 +269,7 @@ class BasePanel(wx.Panel):
     def report_leftdown(self, event=None):
         if event is None:
             return
-        self.write_message("%g, %g" % (event.xdata, event.ydata), panel=1)
+        self.write_message(f"{gformat(event.xdata)}, {gformat(event.ydata)}", panel=1)
 
     def onLeftDown(self, event=None):
         """ left button down: report x,y coords, start zooming mode"""
@@ -540,7 +538,7 @@ class BasePanel(wx.Panel):
                     (3, 'button_press_event'):   self.onRightDown}
 
         handle_event = handlers.get((button, event.name), None)
-        if hasattr(handle_event, '__call__'):
+        if callable(handle_event):
             handle_event(event)
         event.guiEvent.Skip()
 
@@ -720,7 +718,6 @@ class BasePanel(wx.Panel):
         if event.inaxes is None:
             return
 
-        fmt = "X,Y= %g, %g"
         x, y  = event.xdata, event.ydata
         if len(self.fig.get_axes()) > 1:
             try:
@@ -733,7 +730,7 @@ class BasePanel(wx.Panel):
             except AttributeError:
                 self.motion_sbar = 1
 
-        self.write_message(fmt % (x, y), panel=self.motion_sbar)
+        self.write_message(f'X,Y= {gformat(x)}, {gformat(y)}', panel=self.motion_sbar)
 
     def Print(self, event=None, **kw):
         self.printer.Print(event=event, **kw)

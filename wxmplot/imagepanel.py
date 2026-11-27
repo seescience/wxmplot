@@ -15,6 +15,8 @@ from matplotlib.gridspec import GridSpec
 from matplotlib.backends.backend_wxagg import FigureCanvasWxAgg
 from matplotlib.patches import Rectangle
 
+from pyshortcuts import gformat
+
 from .imageconf import ImageConfig, RGB_COLORS
 from .basepanel import BasePanel
 from .utils import inside_poly, MenuItem
@@ -620,7 +622,6 @@ class ImagePanel(BasePanel):
     def report_motion(self, event=None):
         if event.inaxes is None:
             return
-        fmt = "X,Y= %g, %g"
         x, y  = event.xdata, event.ydata
         if len(self.fig.get_axes()) > 1:
             try:
@@ -632,7 +633,7 @@ class ImagePanel(BasePanel):
                 self.motion_sbar = self.nstatusbar-1
             except AttributeError:
                 self.motion_sbar = 1
-        self.write_message(fmt % (x, y), panel=self.motion_sbar)
+        self.write_message(f'X,Y= {gformat(x)}, {gformat(y)}', panel=self.motion_sbar)
         conf = self.conf
         if conf.slice_onmotion:
             ix, iy = int(round(x)), int(round(y))
